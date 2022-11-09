@@ -1,5 +1,6 @@
 {
   "name": "svelte-database-app",
+  "homepage": "http://mersey.cs.nott.ac.uk/~psxaa48/DIS-Police/frontend/dist/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
