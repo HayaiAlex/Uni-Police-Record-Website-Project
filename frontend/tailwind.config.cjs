@@ -4,7 +4,7 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        'traffic': "url('src/assets/Simon-Klasen-Traffic.jpg')"
+        'traffic': "url('./images/Simon-Klasen-Traffic.jpg')"
       }
     },
     plugins: []

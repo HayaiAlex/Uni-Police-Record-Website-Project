@@ -1,8 +1,9 @@
 <?php
 
+header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 
-require_once(dirname(__DIR__,1).'/protected/database.php');
+require_once(__DIR__.'/../protected/database.php');
 
 try {
     $query = $db->prepare('SELECT * FROM people');

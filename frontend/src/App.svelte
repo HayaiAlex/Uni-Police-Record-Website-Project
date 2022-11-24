@@ -2,27 +2,39 @@
     // Routes
     import router from "page";
     import Index from "./routes/Index.svelte";
+    import Dashboard from "./routes/Dashboard.svelte";
+    import People from "./routes/People.svelte";
+    import Vehicles from "./routes/Vehicles.svelte";
+    import Reports from "./routes/Reports.svelte";
+    import Account from "./routes/Account.svelte";
     import References from "./routes/References.svelte";
     import NotFound from "./routes/NotFound.svelte";
+
     // Components
+    import { SvelteToast } from "@zerodevx/svelte-toast";
     import Header from "./lib/Header.svelte";
 
     let page;
     let params;
 
+    // router("/frontend/dist/", () => (page = Index));
+    // router("/frontend/dist/references", () => (page = References));
+
     router("/", () => (page = Index));
-    // router(
-    //     "/svelte-countries/country/:countryName",
-    //     (ctx, next) => {
-    //         params = ctx.params;
-    //         next();
-    //     },
-    //     () => (page = Country)
-    // );
+    router("/dashboard", () => (page = Dashboard));
+    router("/people", () => (page = People));
+    router("/vehicles", () => (page = Vehicles));
+    router("/reports", () => (page = Reports));
+    router("/account", () => (page = Account));
     router("/references", () => (page = References));
     router("/*", () => (page = NotFound));
 
     router.start();
+    console.log(router.current);
 </script>
 
-<svelte:component this={page} {params} />
+<!-- <svelte:component this={page} {params} /> -->
+<SvelteToast />
+
+<Header />
+<svelte:component this={page} />
