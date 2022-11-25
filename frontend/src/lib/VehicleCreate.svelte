@@ -1,7 +1,6 @@
 <script>
     import { successMsg, failMsg } from "../lib/toast";
-    import PersonCreateModal from "../lib/PersonCreateModal.svelte";
-    import PersonSearch from "./PersonSearch.svelte";
+    import AddPerson from "./AddPerson.svelte";
 
     let vehicleMake = "";
     let vehicleModel = "";
@@ -9,17 +8,6 @@
     let numberPlate = "";
     let owner;
     let ownerText = "None";
-    let setOwnerText = "Add Owner";
-    let addingOwner = false;
-
-    $: updateOwnerText(ownerText);
-    const updateOwnerText = (ownerText) => {
-        if (ownerText == "None") {
-            setOwnerText = "Add Owner";
-        } else {
-            setOwnerText = "Change Owner";
-        }
-    };
 
     const createVehicle = async () => {
         let data = new FormData();
@@ -79,14 +67,10 @@
         ownerText = "None";
     };
 
-    let searchingPerson = false;
-    let creatingPerson = false;
-
-    const setPerson = (person) => {
-        console.log(person);
+    const setPerson = (event) => {
+        let person = event.detail;
         owner = person;
         ownerText = person.People_name;
-        searchingPerson = false;
     };
 </script>
 
@@ -130,32 +114,12 @@
             <p>{ownerText}</p>
         </div>
     </div>
-    {#if addingOwner == false}
-        <button
-            on:click={() => {
-                addingOwner = true;
-            }}
-            class="button">{setOwnerText}</button
-        >
-    {:else}
-        <div>
-            <input
-                type="button"
-                value="Search People"
-                on:click={() => {
-                    searchingPerson = true;
-                }}
-                class="button"
-            />
-            <input
-                type="button"
-                value="Create New Person"
-                on:click={() => {
-                    creatingPerson = true;
-                }}
-                class="button"
-            />
-        </div>{/if}
+
+    <AddPerson
+        on:personSet={setPerson}
+        personText={ownerText}
+        buttonText={"Owner"}
+    />
 
     <button
         disabled={vehicleMake == "" && vehicleModel == ""}
@@ -165,24 +129,3 @@
         Add new vehicle
     </button>
 </form>
-
-{#if searchingPerson}
-    <PersonSearch
-        on:personSelected={(event) => {
-            setPerson(event.detail);
-        }}
-        selectable={true}
-    />
-{/if}
-
-{#if creatingPerson}
-    <PersonCreateModal
-        on:close={(event) => {
-            creatingPerson = false;
-            let person = event.detail;
-            if (person) {
-                setPerson(person);
-            }
-        }}
-    />
-{/if}

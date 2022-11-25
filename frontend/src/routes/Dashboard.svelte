@@ -7,6 +7,7 @@
 
     onMount(async () => {
         // Get People
+        // const peopleUrl = "../../../backend/person/get-people.php";
         const peopleUrl = "http://localhost/backend/person/get-people.php";
         let result = await fetch(peopleUrl);
         result = await result.json();

@@ -1,18 +1,10 @@
 <script>
+    import { createEventDispatcher } from "svelte";
+    const dispatch = createEventDispatcher();
     import { successMsg, failMsg } from "../lib/toast";
-    import Vehicles from "../routes/Vehicles.svelte";
     let data;
-    // let data = {
-    //     // Vehicle_ID: "12",
-    //     // Vehicle_type: "Ford Fiesta",
-    //     // Vehicle_colour: "Blue",
-    //     // Vehicle_licence: "LB15AJL",
-    //     // People_ID: "3",
-    //     // People_address: "323 Derby Road, Nottingham",
-    //     // People_licence: "MYERS99JDW8REWL3",
-    //     // People_name: "John Myers",
-    // };
     let numberPlate = "";
+    export let selectable;
 
     const search = async () => {
         if (numberPlate == "") {
@@ -69,6 +61,15 @@
             <p>{data.People_licence}</p>
         {:else}
             <h3 class="font-bold">This vehicle has no owner.</h3>
+        {/if}
+
+        {#if selectable}
+            <button
+                on:click={() => {
+                    dispatch("selected", data);
+                }}
+                class="button">Select</button
+            >
         {/if}
     </section>
 {/if}

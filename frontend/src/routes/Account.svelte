@@ -66,7 +66,7 @@
             <button
                 disabled={currentPassword == "" || newPassword == ""}
                 type="submit"
-                class="text-black bg-sky-500 hover:bg-sky-400 rounded w-max mt-2 px-6 py-2 font-semibold shadow hover:mb-0.5 hover:mt-1.5 duration-75 transition-all"
+                class="button"
             >
                 Submit
             </button>
