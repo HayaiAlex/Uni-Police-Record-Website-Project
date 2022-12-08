@@ -11,6 +11,7 @@
     let addPersonButtonText = "Add Person";
     export let personText = "None";
     export let buttonText = "Person";
+    export let textColour = "text-white";
 
     $: updateButtonText(personText);
     const updateButtonText = (personText) => {
@@ -62,6 +63,7 @@
             setPerson(event.detail);
         }}
         selectable={true}
+        {textColour}
     />
 {/if}
 

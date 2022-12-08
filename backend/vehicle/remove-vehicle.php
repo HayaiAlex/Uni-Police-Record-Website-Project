@@ -10,13 +10,19 @@ if (!isset($_GET['id'])) {sendError('id missing', __LINE__);}
 if (!ctype_digit($_GET['id'])) {sendError('id is not a digit', __LINE__);}
 
 try {
-    $query = $db->prepare('DELETE FROM people WHERE People_ID = :id');
-    $query->bindValue('id', $_GET['id']); // Placeholder protects against SQL injection
+    // First remove vehicle from ownership table
+    $query = $db->prepare('DELETE FROM ownership WHERE Vehicle_ID = :id');
+    $query->bindValue('id', $_GET['id']); 
+    $query->execute();
+
+    // Delete vehicle
+    $query = $db->prepare('DELETE FROM vehicle WHERE Vehicle_ID = :id');
+    $query->bindValue('id', $_GET['id']); 
     $query->execute();
     // If no rows deleted then send error
-    if(!$query->rowCount()) {sendError('user doens\'t exists',__LINE__);}
+    if(!$query->rowCount()) {sendError('vehicle doens\'t exists',__LINE__);}
 
-    echo '{"status":1, "message":"user deleted"}';
+    echo '{"status":1, "message":"vehicle deleted", "data":1}';
     exit();
 } catch(PDOException $ex) {
     sendError('error executing query', __LINE__);

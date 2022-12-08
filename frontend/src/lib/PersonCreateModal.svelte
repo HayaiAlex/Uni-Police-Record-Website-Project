@@ -1,4 +1,5 @@
 <script>
+    import { root } from "../config";
     import { successMsg, failMsg } from "../lib/toast";
     import { createEventDispatcher } from "svelte";
     const dispatch = createEventDispatcher();
@@ -13,7 +14,7 @@
         data.append("address", address);
         data.append("licence", licence);
 
-        const url = "http://localhost/backend/person/create-person.php";
+        const url = `${root}/backend/person/create-person.php`;
         let result = await fetch(url, {
             method: "POST",
             body: data,

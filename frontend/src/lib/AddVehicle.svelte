@@ -8,7 +8,18 @@
     let searchingVehicle = false;
     let creatingVehicle = false;
     let addingVehicle = false;
+    let addVehicleButtonText = "Add Vehicle";
+    export let vehicleText = "None";
+    export let buttonText = "Vehicle";
 
+    $: updateButtonText(vehicleText);
+    const updateButtonText = (vehicleText) => {
+        if (vehicleText == "None") {
+            addVehicleButtonText = `Add ${buttonText}`;
+        } else {
+            addVehicleButtonText = `Change ${buttonText}`;
+        }
+    };
     const setVehicle = (vehicle) => {
         addingVehicle = false;
         dispatch("vehicleSet", vehicle);
@@ -20,7 +31,7 @@
         on:click={() => {
             addingVehicle = true;
         }}
-        class="button">Add Vehicle</button
+        class="button">{addVehicleButtonText}</button
     >
 {:else}
     <div>

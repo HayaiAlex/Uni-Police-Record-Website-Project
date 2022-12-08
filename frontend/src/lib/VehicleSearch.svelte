@@ -1,8 +1,10 @@
 <script>
+    import { root } from "../config";
     import { createEventDispatcher } from "svelte";
     const dispatch = createEventDispatcher();
     import { successMsg, failMsg } from "../lib/toast";
-    let data;
+    import Vehicle from "./Vehicle.svelte";
+    let vehicles = [];
     let numberPlate = "";
     export let selectable;
 
@@ -11,19 +13,17 @@
             return;
         }
 
-        const url =
-            "http://localhost/backend/vehicle/get-vehicle.php?plateNumber=" +
-            numberPlate;
+        const url = `${root}/backend/vehicle/get-vehicle.php?plateNumber=${numberPlate}`;
         let result = await fetch(url);
         result = await result.json();
-        data = result.data;
-        if (data) {
+        vehicles = result.data;
+        if (vehicles) {
             successMsg("Found your vehicle.");
         } else {
             failMsg("No vehicle found!");
         }
 
-        console.log(data);
+        console.log(vehicles);
     };
 </script>
 
@@ -48,28 +48,31 @@
     </button>
 </form>
 
-{#if data}
-    <section
-        class="text-black font-semibold m-2 rounded p-4 shadow w-96 border-4 border-sky-200 bg-sky-200 bg-opacity-90 relative"
-    >
-        <h3 class="font-bold">{data.Vehicle_make} {data.Vehicle_model}</h3>
-        <p>{data.Vehicle_colour}</p>
-        <p>{data.Vehicle_licence}</p>
-
-        {#if data.People_ID}
-            <h3 class="font-bold">{data.People_name}</h3>
-            <p>{data.People_licence}</p>
-        {:else}
-            <h3 class="font-bold">This vehicle has no owner.</h3>
-        {/if}
-
-        {#if selectable}
-            <button
-                on:click={() => {
-                    dispatch("selected", data);
-                }}
-                class="button">Select</button
-            >
-        {/if}
-    </section>
-{/if}
+{#each vehicles as data}
+    <Vehicle
+        on:vehicleEditted={(event) => {
+            const data = event.detail;
+            console.log(data);
+            vehicles = vehicles.map((vehicle) => {
+                if (data.Vehicle_ID == vehicle.Vehicle_ID) {
+                    console.log("Found");
+                    return data;
+                } else {
+                    return vehicle;
+                }
+            });
+        }}
+        on:vehicleDeleted={(event) => {
+            const deletedID = event.detail;
+            vehicles = vehicles.filter((vehicle) => {
+                return vehicle.Vehicle_ID !== deletedID;
+            });
+            console.log(data);
+        }}
+        on:selected={() => {
+            dispatch("selected", data);
+        }}
+        {data}
+        {selectable}
+    />
+{/each}

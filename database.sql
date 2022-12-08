@@ -133,6 +133,21 @@ INSERT INTO Users (User_name, User_password, User_admin) VALUES
 ('daniels', 'copper99', 1),
 ('admin', 'admin', 1);
 
+DROP TABLE IF EXISTS Audit;
+CREATE TABLE Audit (
+  Audit_ID int(11) NOT NULL,
+  Audit_timestamp timestamp NOT NULL,
+  Audit_username varchar(50),
+  Audit_action varchar(100) NOT NULL,
+  Audit_details varchar(500)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO Audit (Audit_ID, Audit_timestamp, Audit_username, Audit_action, Audit_details) VALUES
+(1, '2008-01-01 00:00:01', 'mcnulty', 'searched people by name', 'alex'),
+(2, '2008-01-01 00:00:01', 'mcnulty', 'created person', 'Alexander Adams,Lincoln,ADAMSH9O3J123456'),
+(3, '2008-01-01 00:00:01', 'daniels', 'changed password', NULL),
+(4, '2008-01-01 00:00:01', 'admin', 'deleted person','Alexander Adams,Lincoln,ADAMSH9O3J123456'),
+(5, '2008-01-01 00:00:01', 'admin', 'added fine','500,3,4');
 
 ALTER TABLE Fines
   ADD PRIMARY KEY (Fine_ID),
@@ -160,6 +175,9 @@ ALTER TABLE Vehicle
 ALTER TABLE Users
   ADD PRIMARY KEY (User_name);
 
+ALTER TABLE Audit
+  ADD PRIMARY KEY (Audit_ID);
+
 
 ALTER TABLE Fines
   MODIFY Fine_ID int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
@@ -171,6 +189,8 @@ ALTER TABLE People
   MODIFY People_ID int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 ALTER TABLE Vehicle
   MODIFY Vehicle_ID int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+ALTER TABLE Audit
+  MODIFY Audit_ID int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 
 ALTER TABLE Fines
@@ -184,3 +204,6 @@ ALTER TABLE Incident
 ALTER TABLE Ownership
   ADD CONSTRAINT fk_person FOREIGN KEY (People_ID) REFERENCES People (People_ID),
   ADD CONSTRAINT fk_vehicle FOREIGN KEY (Vehicle_ID) REFERENCES Vehicle (Vehicle_ID);
+
+ALTER TABLE Audit
+  ADD CONSTRAINT fk_username FOREIGN KEY (Audit_username) REFERENCES Users (User_name);

@@ -1,7 +1,9 @@
 <script>
+    import { root } from "../config";
     import { createEventDispatcher } from "svelte";
     const dispatch = createEventDispatcher();
     export let selectable;
+    export let textColour = "text-white";
     import { successMsg, failMsg } from "../lib/toast";
     import Person from "../lib/Person.svelte";
     let people = [];
@@ -20,7 +22,7 @@
         } else {
             return;
         }
-        const url = "http://localhost/backend/person/get-person.php" + data;
+        const url = `${root}/backend/person/get-person.php${data}`;
         let result = await fetch(url);
         result = await result.json();
         data = result.data;
@@ -34,7 +36,7 @@
     };
 </script>
 
-<main class="text-white flex flex-col justify-center items-center pt-2 gap-2">
+<main class="{textColour} flex flex-col justify-center items-center pt-2 gap-2">
     <p>Search for a person by name or licence number.</p>
     <form
         class="flex flex-col justify-center items-center gap-2"
@@ -69,6 +71,26 @@
             {/if}
             {#each people as person}
                 <Person
+                    on:personEditted={(event) => {
+                        const data = event.detail;
+                        console.log(data);
+                        people = people.map((person) => {
+                            if (data.People_ID == person.People_ID) {
+                                console.log("Found");
+                                return data;
+                            } else {
+                                return person;
+                            }
+                        });
+                        console.log(people);
+                    }}
+                    on:personDeleted={(event) => {
+                        const deletedID = event.detail;
+                        people = people.filter((person) => {
+                            return person.People_ID !== deletedID;
+                        });
+                        console.log(people);
+                    }}
                     on:selected={() => {
                         dispatch("personSelected", person);
                     }}

@@ -1,4 +1,5 @@
 <script>
+    import { root } from "../config";
     import { loginStatus } from "../stores/loginStatus";
     import router from "page";
 
@@ -9,7 +10,7 @@
         data.append("username", username);
         data.append("password", password);
 
-        const url = "http://localhost/backend/user/login.php";
+        const url = `${root}/backend/user/login.php`;
         let result = await fetch(url, {
             method: "POST",
             body: data,

@@ -1,4 +1,5 @@
 <script>
+    import { root } from "../config";
     import { successMsg, failMsg } from "../lib/toast";
     import AddPerson from "./AddPerson.svelte";
 
@@ -16,7 +17,7 @@
         data.append("colour", vehicleColour);
         data.append("licence", numberPlate);
 
-        const url = "http://localhost/backend/vehicle/create-vehicle.php";
+        const url = `${root}/backend/vehicle/create-vehicle.php`;
         let result = await fetch(url, {
             method: "POST",
             body: data,
@@ -42,8 +43,7 @@
         data.append("person-id", personID);
         data.append("vehicle-id", vehicleID);
 
-        const url =
-            "http://localhost/backend/vehicle/set-vehicle-ownership.php";
+        const url = `${root}/backend/vehicle/set-vehicle-ownership.php`;
         let result = await fetch(url, {
             method: "POST",
             body: data,
