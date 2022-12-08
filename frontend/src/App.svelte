@@ -1,4 +1,5 @@
 <script>
+    import { route } from "../src/config";
     // Routes
     import router from "page";
     import Index from "./routes/Index.svelte";
@@ -17,17 +18,14 @@
     let page;
     let params;
 
-    // router("/frontend/dist/", () => (page = Index));
-    // router("/frontend/dist/references", () => (page = References));
-
-    router("/", () => (page = Index));
-    router("/dashboard", () => (page = Dashboard));
-    router("/people", () => (page = People));
-    router("/vehicles", () => (page = Vehicles));
-    router("/reports", () => (page = Reports));
-    router("/account", () => (page = Account));
-    router("/references", () => (page = References));
-    router("/*", () => (page = NotFound));
+    router(`${route}/`, () => (page = Index));
+    router(`${route}/dashboard`, () => (page = Dashboard));
+    router(`${route}/people`, () => (page = People));
+    router(`${route}/vehicles`, () => (page = Vehicles));
+    router(`${route}/reports`, () => (page = Reports));
+    router(`${route}/account`, () => (page = Account));
+    router(`${route}/references`, () => (page = References));
+    router(`${route}/*`, () => (page = NotFound));
 
     router.start();
     console.log(router.current);
