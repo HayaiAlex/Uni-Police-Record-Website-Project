@@ -24,7 +24,7 @@ const routes = {
     'http://mersey.cs.nott.ac.uk/~psxaa48/police/main.js': '/~psxaa48/police'
 }
 if (routes[path]) {
-    routes = routes[path]
+    route = routes[path]
 } else {
     console.log("Did not find a custom url prefix to use. Defaulting to /")
 }
