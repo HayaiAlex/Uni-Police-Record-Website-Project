@@ -1,5 +1,5 @@
 <script>
-    import { root } from "../config";
+    import { root, route } from "../config";
     import { loginStatus } from "../stores/loginStatus";
     import router from "page";
 
@@ -25,7 +25,7 @@
             $loginStatus.admin = data.admin;
             $loginStatus.message = "";
             // window.location.href = "/dashboard";
-            router("/dashboard");
+            router(`${route}/dashboard`);
         } else {
             $loginStatus.message = data;
         }

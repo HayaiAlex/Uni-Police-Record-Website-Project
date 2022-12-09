@@ -14,10 +14,10 @@ if ($path == "C:\\xampp\\htdocs\\") {
     $username = 'root';
     $password = '';
     $connection = 'mysql:host=localhost; dbname=police; charset=utf8';
-} elseif ($path == "\\h\\public_html\\police") {
+} elseif ($path == "/lhome/psxaa48/public_html/police/") {
     $username = 'psxaa48_police';
     $password = 'AMNPJF';
-    $connection = 'mysql:host=mysql.cs.nott.ac.uk; dbname=police; charset=utf8';
+    $connection = 'mysql:host=mysql.cs.nott.ac.uk; dbname=psxaa48_police; charset=utf8';
 }
 
 

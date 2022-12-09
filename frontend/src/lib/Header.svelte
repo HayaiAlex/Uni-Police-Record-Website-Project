@@ -1,13 +1,14 @@
 <script>
+    import { route } from "../config";
     import router from "page";
     import Car from "svelte-icons/fa/FaCar.svelte";
     import { loginStatus } from "../stores/loginStatus";
 
     // Redirect to dashboard if logged in
-    let homepage = "/";
+    let homepage = `${route}/`;
     const updateHomepage = () => {
         if (typeof $loginStatus === "object" && $loginStatus.username) {
-            homepage = "/dashboard";
+            homepage = `${route}/dashboard`;
         }
     };
     $: updateHomepage($loginStatus);
@@ -17,14 +18,14 @@
     {#if $loginStatus.username}
         <a
             class="place-self-start font-semibold mr-2 hover:text-gray-500"
-            href="./account"
+            href={`${route}/account`}
         >
             Logged in as <span class="font-bold">{$loginStatus.username}</span>
         </a>
-    {:else if router.current != "/"}
+    {:else if router.current != `${route}/`}
         <a
             class="place-self-start font-semibold mr-2 hover:text-gray-500"
-            href="./"
+            href={`${route}/`}
         >
             Login
         </a>
@@ -38,7 +39,7 @@
     </a>
     <a
         class="place-self-end font-semibold mr-2 hover:text-gray-500"
-        href="./references"
+        href={`${route}/references`}
     >
         References
     </a>

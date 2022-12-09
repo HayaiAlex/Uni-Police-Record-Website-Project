@@ -10,21 +10,21 @@
  */
 
 
-DROP TABLE IF EXISTS Fines;
-CREATE TABLE Fines (
+DROP TABLE IF EXISTS fines;
+CREATE TABLE fines (
   Fine_ID int(11) NOT NULL,
   Fine_Amount int(11) NOT NULL,
   Fine_Points int(11) NOT NULL,
   Incident_ID int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO Fines (Fine_ID, Fine_Amount, Fine_Points, Incident_ID) VALUES
+INSERT INTO fines (Fine_ID, Fine_Amount, Fine_Points, Incident_ID) VALUES
 (1, 2000, 6, 3),
 (2, 50, 0, 2),
 (3, 500, 3, 4);
 
-DROP TABLE IF EXISTS Incident;
-CREATE TABLE Incident (
+DROP TABLE IF EXISTS incident;
+CREATE TABLE incident (
   Incident_ID int(11) NOT NULL,
   Vehicle_ID int(11) DEFAULT NULL,
   People_ID int(11) DEFAULT NULL,
@@ -33,22 +33,22 @@ CREATE TABLE Incident (
   Offence_ID int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO Incident (Incident_ID, Vehicle_ID, People_ID, Incident_Date, Incident_Report, Offence_ID) VALUES
+INSERT INTO incident (Incident_ID, Vehicle_ID, People_ID, Incident_Date, Incident_Report, Offence_ID) VALUES
 (1, 15, 4, '2017-12-01', '40mph in a 30 limit', 1),
 (2, 20, 8, '2017-11-01', 'Double parked', 4),
 (3, 13, 4, '2017-09-17', '110mph on motorway', 1),
 (4, 14, 2, '2017-08-22', 'Failure to stop at a red light - travelling 25mph', 8),
 (5, 13, 4, '2017-10-17', 'Not wearing a seatbelt on the M1', 3);
 
-DROP TABLE IF EXISTS Offence;
-CREATE TABLE Offence (
+DROP TABLE IF EXISTS offence;
+CREATE TABLE offence (
   Offence_ID int(11) NOT NULL,
   Offence_description varchar(50) NOT NULL,
   Offence_maxFine int(11) NOT NULL,
   Offence_maxPoints int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO Offence (Offence_ID, Offence_description, Offence_maxFine, Offence_maxPoints) VALUES
+INSERT INTO offence (Offence_ID, Offence_description, Offence_maxFine, Offence_maxPoints) VALUES
 (1, 'Speeding', 1000, 3),
 (2, 'Speeding on a motorway', 2500, 6),
 (3, 'Seat belt offence', 500, 0),
@@ -63,13 +63,13 @@ INSERT INTO Offence (Offence_ID, Offence_description, Offence_maxFine, Offence_m
 (12, 'Careless driving', 5000, 6),
 (13, 'Dangerous cycling', 2500, 0);
 
-DROP TABLE IF EXISTS Ownership;
-CREATE TABLE Ownership (
+DROP TABLE IF EXISTS ownership;
+CREATE TABLE ownership (
   People_ID int(11) NOT NULL,
   Vehicle_ID int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO Ownership (People_ID, Vehicle_ID) VALUES
+INSERT INTO ownership (People_ID, Vehicle_ID) VALUES
 (3, 12),
 (8, 20),
 (4, 15),
@@ -80,15 +80,15 @@ INSERT INTO Ownership (People_ID, Vehicle_ID) VALUES
 (6, 18),
 (7, 21);
 
-DROP TABLE IF EXISTS People;
-CREATE TABLE People (
+DROP TABLE IF EXISTS people;
+CREATE TABLE people (
   People_ID int(11) NOT NULL,
   People_name varchar(50) NOT NULL,
   People_address varchar(50) DEFAULT NULL,
   People_licence varchar(16) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO People (People_ID, People_name, People_address, People_licence) VALUES
+INSERT INTO people (People_ID, People_name, People_address, People_licence) VALUES
 (1, 'James Smith', '23 Barnsdale Road, Leicester', 'SMITH92LDOFJJ829'),
 (2, 'Jennifer Allen', '46 Bramcote Drive, Nottingham', 'ALLEN88K23KLR9B3'),
 (3, 'John Myers', '323 Derby Road, Nottingham', 'MYERS99JDW8REWL3'),
@@ -99,8 +99,8 @@ INSERT INTO People (People_ID, People_name, People_address, People_licence) VALU
 (8, 'Angela Smith', '30 Avenue Road, Grantham', 'SMITH222LE9FJ5DS'),
 (9, 'Xene Medora', '22 House Drive, West Bridgford', 'MEDORH914ANBB223');
 
-DROP TABLE IF EXISTS Vehicle;
-CREATE TABLE Vehicle (
+DROP TABLE IF EXISTS vehicle;
+CREATE TABLE vehicle (
   Vehicle_ID int(11) NOT NULL,
   Vehicle_make varchar(20) NOT NULL,
   Vehicle_model varchar(20) NOT NULL,
@@ -108,7 +108,7 @@ CREATE TABLE Vehicle (
   Vehicle_licence varchar(7) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO Vehicle (Vehicle_ID, Vehicle_make, Vehicle_model, Vehicle_colour, Vehicle_licence) VALUES
+INSERT INTO vehicle (Vehicle_ID, Vehicle_make, Vehicle_model, Vehicle_colour, Vehicle_licence) VALUES
 (12, 'Ford', 'Fiesta', 'Blue', 'LB15AJL'),
 (13, 'Ferrari', '458', 'Red', 'MY64PRE'),
 (14, 'Vauxhall', 'Astra', 'Silver', 'FD65WPQ'),
@@ -120,21 +120,21 @@ INSERT INTO Vehicle (Vehicle_ID, Vehicle_make, Vehicle_model, Vehicle_colour, Ve
 (21, 'Renault', 'Scenic', 'Silver', 'BC16OEA'),
 (22, 'Hyundai', 'i30', 'Grey', 'AD223NG');
 
-DROP TABLE IF EXISTS Users;
-CREATE TABLE Users (
+DROP TABLE IF EXISTS users;
+CREATE TABLE users (
   User_name varchar(50) NOT NULL,
   User_password varchar(50) NOT NULL,
-  User_admin BIT(1)
+  User_admin int(11)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO Users (User_name, User_password, User_admin) VALUES
+INSERT INTO users (User_name, User_password, User_admin) VALUES
 ('mcnulty', 'plod123', 0),
 ('moreland', 'fuzz42', 0),
 ('daniels', 'copper99', 1),
 ('admin', 'admin', 1);
 
-DROP TABLE IF EXISTS Audit;
-CREATE TABLE Audit (
+DROP TABLE IF EXISTS audit;
+CREATE TABLE audit (
   Audit_ID int(11) NOT NULL,
   Audit_timestamp timestamp NOT NULL,
   Audit_username varchar(50),
@@ -142,68 +142,68 @@ CREATE TABLE Audit (
   Audit_details varchar(500)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO Audit (Audit_ID, Audit_timestamp, Audit_username, Audit_action, Audit_details) VALUES
+INSERT INTO audit (Audit_ID, Audit_timestamp, Audit_username, Audit_action, Audit_details) VALUES
 (1, '2008-01-01 00:00:01', 'mcnulty', 'searched people by name', 'alex'),
 (2, '2008-01-01 00:00:01', 'mcnulty', 'created person', 'Alexander Adams,Lincoln,ADAMSH9O3J123456'),
 (3, '2008-01-01 00:00:01', 'daniels', 'changed password', NULL),
 (4, '2008-01-01 00:00:01', 'admin', 'deleted person','Alexander Adams,Lincoln,ADAMSH9O3J123456'),
 (5, '2008-01-01 00:00:01', 'admin', 'added fine','500,3,4');
 
-ALTER TABLE Fines
+ALTER TABLE fines
   ADD PRIMARY KEY (Fine_ID),
-  ADD KEY Incident_ID (Incident_ID);
+  ADD KEY incident_ID (Incident_ID);
 
-ALTER TABLE Incident
+ALTER TABLE incident
   ADD PRIMARY KEY (Incident_ID),
   ADD KEY fk_incident_vehicle (Vehicle_ID),
   ADD KEY fk_incident_people (People_ID),
   ADD KEY fk_incident_offence (Offence_ID);
 
-ALTER TABLE Offence
+ALTER TABLE offence
   ADD PRIMARY KEY (Offence_ID);
 
-ALTER TABLE Ownership
+ALTER TABLE ownership
   ADD KEY fk_people (People_ID),
   ADD KEY fk_vehicle (Vehicle_ID);
 
-ALTER TABLE People
+ALTER TABLE people
   ADD PRIMARY KEY (People_ID);
 
-ALTER TABLE Vehicle
+ALTER TABLE vehicle
   ADD PRIMARY KEY (Vehicle_ID);
 
-ALTER TABLE Users
+ALTER TABLE users
   ADD PRIMARY KEY (User_name);
 
-ALTER TABLE Audit
+ALTER TABLE audit
   ADD PRIMARY KEY (Audit_ID);
 
 
-ALTER TABLE Fines
+ALTER TABLE fines
   MODIFY Fine_ID int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-ALTER TABLE Incident
+ALTER TABLE incident
   MODIFY Incident_ID int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-ALTER TABLE Offence
+ALTER TABLE offence
   MODIFY Offence_ID int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
-ALTER TABLE People
+ALTER TABLE people
   MODIFY People_ID int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
-ALTER TABLE Vehicle
+ALTER TABLE vehicle
   MODIFY Vehicle_ID int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
-ALTER TABLE Audit
+ALTER TABLE audit
   MODIFY Audit_ID int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 
-ALTER TABLE Fines
-  ADD CONSTRAINT fk_fines FOREIGN KEY (Incident_ID) REFERENCES Incident (Incident_ID);
+ALTER TABLE fines
+  ADD CONSTRAINT fk_fines FOREIGN KEY (Incident_ID) REFERENCES incident (Incident_ID);
 
-ALTER TABLE Incident
-  ADD CONSTRAINT fk_incident_offence FOREIGN KEY (Offence_ID) REFERENCES Offence (Offence_ID),
-  ADD CONSTRAINT fk_incident_people FOREIGN KEY (People_ID) REFERENCES People (People_ID),
-  ADD CONSTRAINT fk_incident_vehicle FOREIGN KEY (Vehicle_ID) REFERENCES Vehicle (Vehicle_ID);
+ALTER TABLE incident
+  ADD CONSTRAINT fk_incident_offence FOREIGN KEY (Offence_ID) REFERENCES offence (Offence_ID),
+  ADD CONSTRAINT fk_incident_people FOREIGN KEY (People_ID) REFERENCES people (People_ID),
+  ADD CONSTRAINT fk_incident_vehicle FOREIGN KEY (Vehicle_ID) REFERENCES vehicle (Vehicle_ID);
 
-ALTER TABLE Ownership
-  ADD CONSTRAINT fk_person FOREIGN KEY (People_ID) REFERENCES People (People_ID),
-  ADD CONSTRAINT fk_vehicle FOREIGN KEY (Vehicle_ID) REFERENCES Vehicle (Vehicle_ID);
+ALTER TABLE ownership
+  ADD CONSTRAINT fk_person FOREIGN KEY (People_ID) REFERENCES people (People_ID),
+  ADD CONSTRAINT fk_vehicle FOREIGN KEY (Vehicle_ID) REFERENCES vehicle (Vehicle_ID);
 
-ALTER TABLE Audit
-  ADD CONSTRAINT fk_username FOREIGN KEY (Audit_username) REFERENCES Users (User_name);
+ALTER TABLE audit
+  ADD CONSTRAINT fk_username FOREIGN KEY (Audit_username) REFERENCES users (User_name);
