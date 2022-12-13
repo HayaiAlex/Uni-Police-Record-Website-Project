@@ -12,6 +12,7 @@ if(!isset($_POST['password'])) {sendError('password missing', __LINE__);}
 if(strlen($_POST['password'])>50) {sendError('password must be less than 50 characters', __LINE__);}
 
 require_once(__DIR__.'/../protected/database.php');
+require_once(__DIR__.'/../audit/create-audit.php');
 
 try {
     $query = $db->prepare('SELECT * FROM users WHERE User_name = :username AND User_password = :password');
@@ -36,6 +37,9 @@ try {
     }
 
     $row = $query->fetch();
+
+    // Add login audit log
+    createLog($db, $_POST['username'], "logged in");
 
     echo '{"status":1, "message":"user credentials accepted", "data":{"username":"'.$_POST['username'].'", "admin":"'.$row['User_admin'].'"}}';
     exit();

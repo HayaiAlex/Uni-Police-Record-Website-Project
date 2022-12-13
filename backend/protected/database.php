@@ -6,17 +6,17 @@ header('Content-Type: application/json');
 $directory = getcwd();
 $path = explode("backend",$directory)[0];
 
-$username = NULL;
-$password = NULL;
+$dbusername = NULL;
+$dbpassword = NULL;
 $connection = NULL;
 
 if ($path == "C:\\xampp\\htdocs\\") {
-    $username = 'root';
-    $password = '';
+    $dbusername = 'root';
+    $dbpassword = '';
     $connection = 'mysql:host=localhost; dbname=police; charset=utf8';
 } elseif ($path == "/lhome/psxaa48/public_html/police/") {
-    $username = 'psxaa48_police';
-    $password = 'AMNPJF';
+    $dbusername = 'psxaa48_police';
+    $dbpassword = 'AMNPJF';
     $connection = 'mysql:host=mysql.cs.nott.ac.uk; dbname=psxaa48_police; charset=utf8';
 }
 
@@ -27,7 +27,7 @@ try {
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, // enables try-catch of SQL statements
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC // outputs associative array which is convertable to JSON
     ];
-    $db = new PDO($connection, $username, $password, $options);
+    $db = new PDO($connection, $dbusername, $dbpassword, $options);
 
 
 } catch(PDOException $ex) {

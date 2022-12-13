@@ -13,6 +13,7 @@ $statement = $_POST['statement'];
 $people_id = NULL;
 $vehicle_id = NULL;
 $offence_id = NULL;
+$username = NULL;
 
 if(isset($_POST['people-id'])) {
     $people_id = $_POST['people-id'];
@@ -23,10 +24,16 @@ if(isset($_POST['vehicle-id'])) {
 if(isset($_POST['offence-id'])) {
     $offence_id = $_POST['offence-id'];
 }
+if(isset($_POST['username'])) {
+    $username = $_POST['username'];
+}
+
 
 require_once(__DIR__.'/../protected/database.php');
+require_once(__DIR__.'/../audit/create-audit.php');
 
 try {
+    // Create the report
     $query = $db->prepare('INSERT INTO incident (Vehicle_ID, People_ID, Incident_Date, Incident_Report, Offence_ID)
     VALUES (:vehicle_id, :people_id, :date, :statement, :offence_id);');
     $query->bindValue('date', $date);
@@ -36,6 +43,10 @@ try {
     $query->bindValue('offence_id', $offence_id);
     $query->execute();
     $reportId = $db->lastInsertId();
+
+    // Add audit log
+    require_once(__DIR__.'/../audit/create-audit.php');
+    createReportLog($db, $username, "Created report", $reportId, $date, $statement, $people_id, $vehicle_id, $offence_id);
 
     echo '{"status":1, "message":"report created", "id":"'.$reportId.'","data":"'.$reportId.'"}';
     exit();

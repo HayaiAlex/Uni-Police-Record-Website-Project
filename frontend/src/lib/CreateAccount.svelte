@@ -14,6 +14,7 @@
         let data = new FormData();
         data.append("username", username);
         data.append("password", password);
+        data.append("loggedInUsername", $loginStatus.username);
 
         const url = `${root}/backend/user/create-account.php`;
         let result = await fetch(url, {

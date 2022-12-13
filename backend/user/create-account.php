@@ -12,14 +12,15 @@ if(strlen($_POST['username'])>50) {sendError('username must be no more than 50 c
 if (!isset($_POST['password'])) {sendError('password missing', __LINE__);}
 if(strlen($_POST['password'])>50) {sendError('password must be no more than 50 characters', __LINE__);}
 
-// Admin status false/0 by default
-$admin = FALSE;
+// Admin status 0 by default
+$admin = 0;
 
 if (isset($_POST['admin'])) {
     $admin = $_POST['admin'];
 }
 
 require_once(__DIR__.'/../protected/database.php');
+require_once(__DIR__.'/../audit/create-audit.php');
 // Add user already exists with this username
 try {
     $query = $db->prepare('INSERT INTO users (User_name, User_password, User_admin)
@@ -29,6 +30,8 @@ try {
     $query->bindValue('admin', $admin);
     $query->execute();
     $userId = $db->lastInsertId();
+ 
+    createUsersLog($db, $_POST['loggedInUsername'], "Created account", $_POST['username'], $_POST['password'], $admin);
 
     echo '{"status":1, "message":"account created"}';
     exit();

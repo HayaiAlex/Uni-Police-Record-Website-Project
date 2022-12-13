@@ -17,6 +17,7 @@ $statement = $_POST['statement'];
 $vehicleId = NULL;
 $personId = NULL;
 $offenceId = NULL;
+$username = NULL;
 
 if(isset($_POST['vehicleId'])) {
     $vehicleId = $_POST['vehicleId'];
@@ -27,10 +28,21 @@ if(isset($_POST['personId'])) {
 if(isset($_POST['offenceId'])) {
     $offenceId = $_POST['offenceId'];
 }
+if(isset($_POST['username'])) {
+    $username = $_POST['username'];
+}
 
 require_once(__DIR__.'/../protected/database.php');
+require_once(__DIR__.'/../audit/create-audit.php');
 
 try {
+    // First save old data
+    $selectquery = $db->prepare('SELECT * FROM incident WHERE Incident_ID = :id');
+    $selectquery->bindValue('id', $incidentId);
+    $selectquery->execute();
+    $old = $selectquery->fetch();
+
+    // Update existing report
     $query = $db->prepare('UPDATE incident SET Vehicle_ID = :vehicleId, People_ID = :personId, Incident_Date = :date, Incident_Report = :statement, Offence_ID = :offenceId WHERE Incident_ID = :incidentId');
     $query->bindValue('incidentId', $incidentId);
     $query->bindValue('date', $date);
@@ -43,6 +55,9 @@ try {
     if (!$query->rowCount()) {
         sendError('Report not found', __LINE__);
     }
+
+    // Add audit update report log
+    createReportLog($db, $username, "Updated report", $incidentId, $date, $statement, $personId, $vehicleId, $offenceId, $old['Incident_Date'], $old['Incident_Report'], $old['People_ID'], $old['Vehicle_ID'], $old['Offence_ID']);
 
     echo '{"status":1, "message":"report updated"}';
     exit();

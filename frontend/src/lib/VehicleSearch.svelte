@@ -3,6 +3,7 @@
     import { createEventDispatcher } from "svelte";
     const dispatch = createEventDispatcher();
     import { successMsg, failMsg } from "../lib/toast";
+    import { loginStatus } from "../stores/loginStatus";
     import Vehicle from "./Vehicle.svelte";
     let vehicles = [];
     let numberPlate = "";
@@ -12,8 +13,11 @@
         if (numberPlate == "") {
             return;
         }
-
-        const url = `${root}/backend/vehicle/get-vehicle.php?plateNumber=${numberPlate}`;
+        let data = `?plateNumber=${numberPlate}`;
+        if ($loginStatus.username) {
+            data += `&username=${$loginStatus.username}`;
+        }
+        const url = `${root}/backend/vehicle/get-vehicle.php${data}`;
         let result = await fetch(url);
         result = await result.json();
         vehicles = result.data;

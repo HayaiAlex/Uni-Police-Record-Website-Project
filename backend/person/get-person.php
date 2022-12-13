@@ -4,14 +4,20 @@ header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 
 require_once(__DIR__.'/../protected/database.php');
+require_once(__DIR__.'/../audit/create-audit.php');
 
 // Check that either a name or licence number is provided
 if (!isset($_GET['name']) and !isset($_GET['licence'])) {sendError('please give a name or licence', __LINE__);}
 
+$username = NULL;
+if (isset($_GET['username'])) {
+    $username = $_GET['username'];
+}
+
 // If a licence number provided use that
 if (isset($_GET['licence'])) {
     try {
-        $query = $db->prepare('SELECT * FROM people WHERE People_licence = :licence');
+        $query = $db->prepare('SELECT * FROM people WHERE People_licence LIKE "%":licence"%"');
         $query->bindValue('licence', $_GET['licence']);
         $query->execute();
         $row = $query->fetchAll();
@@ -22,6 +28,9 @@ if (isset($_GET['licence'])) {
             $vehicles = getVehicles($db, $person["People_ID"]);
             $person["Vehicles"] = $vehicles;
         }
+
+        // Add search audit log
+        createLog($db, $username, "searched people by licence", $_GET['licence']);
 
         echo '{"status":1, "data":'.json_encode($row).'}';
         exit();
@@ -43,6 +52,8 @@ if (isset($_GET['licence'])) {
             $person["Vehicles"] = $vehicles;
         }
 
+        // Add search audit log
+        createLog($db, $username, "searched people by name", $_GET['name']);
 
         echo '{"status":1, "data":'.json_encode($rows).'}';
         exit();

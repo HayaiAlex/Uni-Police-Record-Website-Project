@@ -18,6 +18,7 @@ if(strlen($_POST['newPassword'])>50) {sendError('newPassword must be no more tha
 
 
 require_once(__DIR__.'/../protected/database.php');
+require_once(__DIR__.'/../audit/create-audit.php');
 
 try {
     $query = $db->prepare('UPDATE users
@@ -33,6 +34,9 @@ try {
         echo '{"status":1, "message":"no rows changed. either password incorrect or new password same as current", "data":0}';
     } else {
         echo '{"status":1, "message":"password updated","data":1}';
+
+        // Add search audit log
+        createLog($db, $_POST['username'], "changed password");
     }
 
     exit();

@@ -10,20 +10,25 @@ if(strlen($_POST['name'])>50) {sendError('name must be less than 50 characters',
 $name = $_POST['name'];
 $address = NULL;
 $licence = NULL;
+$username = NULL;
 
-if(isset($_POST['address'])) {
+if(isset($_POST['address']) && strlen($_POST['address']) > 0) {
     $address = $_POST['address'];
     if(strlen($address)>50) { sendError('address must be less than 50 characters', __LINE__);}
 }
 
-if(isset($_POST['licence'])) {
+if(isset($_POST['licence']) && strlen($_POST['licence']) > 0) {
     $licence = $_POST['licence'];
     if(strlen($licence)>16) { sendError('address must be less than 16 characters', __LINE__);}
+}
+if(isset($_POST['username'])) {
+    $username = $_POST['username'];
 }
 
 require_once(__DIR__.'/../protected/database.php');
 
 try {
+    // Add person
     $query = $db->prepare('INSERT INTO people (People_name, People_address, People_licence)
     VALUES (:name, :address, :licence)');
     $query->bindValue('name', $name);
@@ -32,7 +37,11 @@ try {
     $query->execute();
     $userId = $db->lastInsertId();
 
-    echo '{"status":1, "message":"user created", "id":"'.$userId.'","data":"'.$userId.'"}';
+    // Add audit log
+    require_once(__DIR__.'/../audit/create-audit.php');
+    createPersonLog($db, $username, "Created person", $userId, $name, $address, $licence);
+
+    echo '{"status":1, "message":"user created", "id":"'.$userId.'","data":{"id":"'.$userId.'", "user":"'.$username.'"}}';
     exit();
 } catch (PDOException $ex) {
     sendError('error executing query', __LINE__);

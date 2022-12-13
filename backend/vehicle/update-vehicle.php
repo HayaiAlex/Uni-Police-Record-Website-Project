@@ -16,6 +16,7 @@ $make = $_POST['make'];
 $model = $_POST['model'];
 $colour = NULL;
 $licence = NULL;
+$username = NULL;
 
 if(isset($_POST['colour'])) {
     $colour = $_POST['colour'];
@@ -23,10 +24,21 @@ if(isset($_POST['colour'])) {
 if(isset($_POST['licence'])) {
     $licence = $_POST['licence'];
 }
+if (isset($_POST['username'])) {
+    $username = $_POST['username'];
+}
 
 require_once(__DIR__.'/../protected/database.php');
+require_once(__DIR__.'/../audit/create-audit.php');
 
 try {
+    // First save old data
+    $selectquery = $db->prepare('SELECT * FROM vehicle WHERE Vehicle_ID = :id');
+    $selectquery->bindValue('id', $id);
+    $selectquery->execute();
+    $old = $selectquery->fetch();
+
+    // Update vehicle record
     $query = $db->prepare('UPDATE vehicle SET Vehicle_make = :make, Vehicle_model = :model, Vehicle_colour = :colour, Vehicle_licence = :licence WHERE Vehicle_ID = :id');
     $query->bindValue('id', $id);
     $query->bindValue('make', $make);
@@ -39,6 +51,8 @@ try {
         sendError('vehicle not found', __LINE__);
     }
 
+    createVehicleLog($db, $username, "Updated vehicle", $id, $make, $model, $colour, $licence, $old['Vehicle_make'], $old['Vehicle_model'], $old['Vehicle_colour'], $old['Vehicle_licence']);
+    
     echo '{"status":1, "message":"vehicle updated"}';
     exit();
 } catch (PDOException $ex) {

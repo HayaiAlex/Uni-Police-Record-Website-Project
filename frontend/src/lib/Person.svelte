@@ -3,6 +3,7 @@
     import { successMsg, failMsg } from "../lib/toast";
     import { createEventDispatcher } from "svelte";
     const dispatch = createEventDispatcher();
+    import { loginStatus } from "../stores/loginStatus";
     export let person;
     export let selectable;
     let name = person.People_name;
@@ -12,6 +13,9 @@
 
     const editPerson = async () => {
         let data = new FormData();
+        if ($loginStatus.username) {
+            data.append("username", $loginStatus.username);
+        }
         data.append("id", person.People_ID);
         data.append("name", name);
         data.append("address", address);
@@ -40,7 +44,11 @@
     };
 
     const deletePerson = async () => {
-        const url = `${root}/backend/person/remove-person.php?id=${person.People_ID}`;
+        let data = `?id=${person.People_ID}`;
+        if ($loginStatus.username) {
+            data += `&username=${$loginStatus.username}`;
+        }
+        const url = `${root}/backend/person/remove-person.php${data}`;
         let result = await fetch(url);
         result = await result.json();
         console.log(result);

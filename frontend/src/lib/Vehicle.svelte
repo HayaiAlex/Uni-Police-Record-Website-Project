@@ -3,6 +3,7 @@
     import { successMsg, failMsg } from "../lib/toast";
     import { createEventDispatcher } from "svelte";
     const dispatch = createEventDispatcher();
+    import { loginStatus } from "../stores/loginStatus";
 
     export let data;
     export let selectable;
@@ -22,6 +23,9 @@
         formData.append("model", model);
         formData.append("colour", colour);
         formData.append("licence", licence);
+        if ($loginStatus.username) {
+            formData.append("username", $loginStatus.username);
+        }
 
         const url = `${root}/backend/vehicle/update-vehicle.php`;
         let result = await fetch(url, {
@@ -50,7 +54,11 @@
     };
 
     const deleteVehicle = async () => {
-        const url = `${root}/backend/vehicle/remove-vehicle.php?id=${data.Vehicle_ID}`;
+        let data = `?id=${data.Vehicle_ID}`;
+        if ($loginStatus.username) {
+            data += `&username=${$loginStatus.username}`;
+        }
+        const url = `${root}/backend/vehicle/remove-vehicle.php${data}`;
         let result = await fetch(url);
         result = await result.json();
         console.log(result);

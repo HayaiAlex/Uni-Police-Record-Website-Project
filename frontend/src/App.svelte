@@ -10,6 +10,7 @@
     import Account from "./routes/Account.svelte";
     import References from "./routes/References.svelte";
     import NotFound from "./routes/NotFound.svelte";
+    import Audit from "./routes/Audit.svelte";
 
     // Components
     import { SvelteToast } from "@zerodevx/svelte-toast";
@@ -25,7 +26,18 @@
     router(`${route}/reports`, () => (page = Reports));
     router(`${route}/account`, () => (page = Account));
     router(`${route}/references`, () => (page = References));
+    router(`${route}/audits`, () => (page = Audit));
     router(`${route}/*`, () => (page = NotFound));
+
+    // router(`./`, () => (page = Index));
+    // router(`./dashboard`, () => (page = Dashboard));
+    // router(`./people`, () => (page = People));
+    // router(`./vehicles`, () => (page = Vehicles));
+    // router(`./reports`, () => (page = Reports));
+    // router(`./account`, () => (page = Account));
+    // router(`./references`, () => (page = References));
+    // router(`./audit`, () => (page = Audit));
+    // router(`./*`, () => (page = NotFound));
 
     router.start();
     console.log(router.current);

@@ -1,6 +1,7 @@
 <script>
     import { root } from "../config";
     import { successMsg, failMsg } from "../lib/toast";
+    import { loginStatus } from "../stores/loginStatus";
     let date;
     let statement;
     let offence;
@@ -27,6 +28,9 @@
         if (offence) {
             data.append("offence-id", offence);
             console.log("added offence");
+        }
+        if ($loginStatus.username) {
+            data.append("username", $loginStatus.username);
         }
 
         const url = `${root}/backend/report/create-report.php`;

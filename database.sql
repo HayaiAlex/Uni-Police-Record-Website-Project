@@ -139,15 +139,94 @@ CREATE TABLE audit (
   Audit_timestamp timestamp NOT NULL,
   Audit_username varchar(50),
   Audit_action varchar(100) NOT NULL,
-  Audit_details varchar(500)
+  Audit_search_term varchar(50),
+  Audit_People_History_ID int(11),
+  Audit_Vehicle_History_ID int(11),
+  Audit_Incident_History_ID int(11),
+  Audit_Fines_History_ID int(11),
+  Audit_Ownership_History_ID int(11),
+  Audit_Users_History_ID int(11)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO audit (Audit_ID, Audit_timestamp, Audit_username, Audit_action, Audit_details) VALUES
+INSERT INTO audit (Audit_ID, Audit_timestamp, Audit_username, Audit_action, Audit_search_term) VALUES
 (1, '2008-01-01 00:00:01', 'mcnulty', 'searched people by name', 'alex'),
-(2, '2008-01-01 00:00:01', 'mcnulty', 'created person', 'Alexander Adams,Lincoln,ADAMSH9O3J123456'),
+(2, '2008-01-01 00:00:01', 'mcnulty', 'created person', NULL),
 (3, '2008-01-01 00:00:01', 'daniels', 'changed password', NULL),
-(4, '2008-01-01 00:00:01', 'admin', 'deleted person','Alexander Adams,Lincoln,ADAMSH9O3J123456'),
-(5, '2008-01-01 00:00:01', 'admin', 'added fine','500,3,4');
+(4, '2008-01-01 00:00:01', 'admin', 'deleted person', NULL),
+(5, '2008-01-01 00:00:01', 'admin', 'added fine', NULL);
+
+DROP TABLE IF EXISTS audit_people_history;
+CREATE TABLE audit_people_history (
+  Audit_People_History_ID int(11) NOT NULL,
+  Audit_People_people_ID int(11) NOT NULL,
+  Audit_People_old_name varchar(50) DEFAULT NULL,
+  Audit_People_old_address varchar(50) DEFAULT NULL,
+  Audit_People_old_licence varchar(16) DEFAULT NULL,
+  Audit_People_new_name varchar(50) DEFAULT NULL,
+  Audit_People_new_address varchar(50) DEFAULT NULL,
+  Audit_People_new_licence varchar(16) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS audit_vehicle_history;
+CREATE TABLE audit_vehicle_history (
+  Audit_Vehicle_History_ID int(11) NOT NULL,
+  Audit_Vehicle_vehicle_ID int(11) NOT NULL,
+  Audit_Vehicle_old_make varchar(20) DEFAULT NULL,
+  Audit_Vehicle_old_model varchar(20) DEFAULT NULL,
+  Audit_Vehicle_old_colour varchar(7) DEFAULT NULL,
+  Audit_Vehicle_old_licence varchar(7) DEFAULT NULL,
+  Audit_Vehicle_new_make varchar(20) DEFAULT NULL,
+  Audit_Vehicle_new_model varchar(20) DEFAULT NULL,
+  Audit_Vehicle_new_colour varchar(7) DEFAULT NULL,
+  Audit_Vehicle_new_licence varchar(7) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS audit_incident_history;
+CREATE TABLE audit_incident_history (
+  Audit_Incident_History_ID int(11) NOT NULL,
+  Audit_Incident_incident_ID int(11) NOT NULL,
+  Audit_Incident_old_vehicle_ID int(11) DEFAULT NULL,
+  Audit_Incident_old_people_ID int(11) DEFAULT NULL,
+  Audit_Incident_old_date date DEFAULT NULL,
+  Audit_Incident_old_report varchar(500) DEFAULT NULL,
+  Audit_Incident_old_offence_ID int(11) DEFAULT NULL,
+  Audit_Incident_new_vehicle_ID int(11) DEFAULT NULL,
+  Audit_Incident_new_people_ID int(11) DEFAULT NULL,
+  Audit_Incident_new_date date DEFAULT NULL,
+  Audit_Incident_new_report varchar(500) DEFAULT NULL,
+  Audit_Incident_new_offence_ID int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS audit_fines_history;
+CREATE TABLE audit_fines_history (
+  Audit_Fines_History_ID int(11) NOT NULL,
+  Audit_Fines_fine_ID int(11) NOT NULL,
+  Audit_Fines_old_amount int(11) DEFAULT NULL,
+  Audit_Fines_old_points int(11) DEFAULT NULL,
+  Audit_Fines_new_amount int(11) NOT NULL,
+  Audit_Fines_new_points int(11) NOT NULL,
+  Audit_Fines_incident_ID int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS audit_ownership_history;
+CREATE TABLE audit_ownership_history (
+  Audit_Ownership_History_ID int(11) NOT NULL,
+  Audit_Ownership_old_people_ID int(11) DEFAULT NULL,
+  Audit_Ownership_old_vehicle_ID int(11) DEFAULT NULL,
+  Audit_Ownership_new_people_ID int(11) DEFAULT NULL,
+  Audit_Ownership_new_vehicle_ID int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS audit_users_history;
+CREATE TABLE audit_users_history (
+  Audit_Users_History_ID int(11) NOT NULL,
+  Audit_Users_old_username varchar(50) DEFAULT NULL,
+  Audit_Users_old_password varchar(50) DEFAULT NULL,
+  Audit_Users_old_admin int(11) DEFAULT NULL,
+  Audit_Users_new_username varchar(50) DEFAULT NULL,
+  Audit_Users_new_password varchar(50) DEFAULT NULL,
+  Audit_Users_new_admin int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 ALTER TABLE fines
   ADD PRIMARY KEY (Fine_ID),
@@ -177,7 +256,18 @@ ALTER TABLE users
 
 ALTER TABLE audit
   ADD PRIMARY KEY (Audit_ID);
-
+ALTER TABLE audit_people_history
+  ADD PRIMARY KEY (Audit_People_History_ID);
+ALTER TABLE audit_vehicle_history
+  ADD PRIMARY KEY (Audit_Vehicle_History_ID);
+ALTER TABLE audit_incident_history
+  ADD PRIMARY KEY (Audit_Incident_History_ID);
+ALTER TABLE audit_fines_history
+  ADD PRIMARY KEY (Audit_Fines_History_ID);
+ALTER TABLE audit_ownership_history
+  ADD PRIMARY KEY (Audit_Ownership_History_ID);
+ALTER TABLE audit_users_history
+  ADD PRIMARY KEY (Audit_Users_History_ID);
 
 ALTER TABLE fines
   MODIFY Fine_ID int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
@@ -191,6 +281,18 @@ ALTER TABLE vehicle
   MODIFY Vehicle_ID int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 ALTER TABLE audit
   MODIFY Audit_ID int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+ALTER TABLE audit_people_history
+  MODIFY Audit_People_History_ID int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+ALTER TABLE audit_vehicle_history
+  MODIFY Audit_Vehicle_History_ID int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+ALTER TABLE audit_incident_history
+  MODIFY Audit_Incident_History_ID int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+ALTER TABLE audit_fines_history
+  MODIFY Audit_Fines_History_ID int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+ALTER TABLE audit_ownership_history
+  MODIFY Audit_Ownership_History_ID int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+ALTER TABLE audit_users_history
+  MODIFY Audit_Users_History_ID int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 
 ALTER TABLE fines
@@ -206,4 +308,9 @@ ALTER TABLE ownership
   ADD CONSTRAINT fk_vehicle FOREIGN KEY (Vehicle_ID) REFERENCES vehicle (Vehicle_ID);
 
 ALTER TABLE audit
-  ADD CONSTRAINT fk_username FOREIGN KEY (Audit_username) REFERENCES users (User_name);
+  ADD CONSTRAINT fk_pereson_history FOREIGN KEY (Audit_People_History_ID) REFERENCES audit_people_history (Audit_People_History_ID),
+  ADD CONSTRAINT fk_vehicle_history FOREIGN KEY (Audit_Vehicle_History_ID) REFERENCES audit_vehicle_history (Audit_Vehicle_History_ID),
+  ADD CONSTRAINT fk_incident_history FOREIGN KEY (Audit_Incident_History_ID) REFERENCES audit_incident_history (Audit_Incident_History_ID),
+  ADD CONSTRAINT fk_fines_history FOREIGN KEY (Audit_Fines_History_ID) REFERENCES audit_fines_history (Audit_Fines_History_ID),
+  ADD CONSTRAINT fk_ownership_history FOREIGN KEY (Audit_Ownership_History_ID) REFERENCES audit_ownership_history (Audit_Ownership_History_ID),
+  ADD CONSTRAINT fk_users_history FOREIGN KEY (Audit_Users_History_ID) REFERENCES audit_users_history (Audit_Users_History_ID);

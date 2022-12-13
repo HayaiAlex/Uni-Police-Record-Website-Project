@@ -49,6 +49,9 @@
         formData.append("offenceId", offence);
         formData.append("date", date);
         formData.append("statement", statement);
+        if ($loginStatus.username) {
+            formData.append("username", $loginStatus.username);
+        }
         console.log(report.Incident_ID);
 
         const url = `${root}/backend/report/edit-report.php`;
@@ -93,6 +96,9 @@
         formData.append("incidentId", report.Incident_ID);
         formData.append("amount", fine);
         formData.append("points", points);
+        if ($loginStatus.username) {
+            formData.append("username", $loginStatus.username);
+        }
 
         let url = "";
         if (!fineId) {

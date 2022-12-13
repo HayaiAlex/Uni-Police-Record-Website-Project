@@ -13,6 +13,7 @@ $make = $_POST['make'];
 $model = $_POST['model'];
 $colour = NULL;
 $licence = NULL;
+$username = NULL;
 
 if(isset($_POST['colour'])) {
     $colour = $_POST['colour'];
@@ -22,8 +23,12 @@ if(isset($_POST['licence'])) {
     $licence = $_POST['licence'];
     if(strlen($licence)>7) { sendError('licence must be less than 8 characters', __LINE__);}
 }
+if(isset($_POST['username'])) {
+    $username = $_POST['username'];
+}
 
 require_once(__DIR__.'/../protected/database.php');
+require_once(__DIR__.'/../audit/create-audit.php');
 
 try {
     $query = $db->prepare('INSERT INTO vehicle (Vehicle_make, Vehicle_model, Vehicle_colour, Vehicle_licence)
@@ -34,6 +39,8 @@ try {
     $query->bindValue('licence', $licence);
     $query->execute();
     $vehicleId = $db->lastInsertId();
+
+    createVehicleLog($db, $username, "Created vehicle", $vehicleId, $make, $model, $colour, $licence);
 
     echo '{"status":1, "message":"vehicle created", "id":"'.$vehicleId.'","data":"'.$vehicleId.'"}';
     exit();

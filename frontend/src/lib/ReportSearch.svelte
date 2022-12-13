@@ -1,12 +1,17 @@
 <script>
     import { root } from "../config";
     import { successMsg, failMsg } from "../lib/toast";
+    import { loginStatus } from "../stores/loginStatus";
     import Report from "./Report.svelte";
     let reports = [];
     let name = "";
 
     const search = async () => {
-        const url = `${root}/backend/report/get-reports-by-name.php?name=${name}`;
+        let data = `?name=${name}`;
+        if ($loginStatus.username) {
+            data += `&username=${$loginStatus.username}`;
+        }
+        const url = `${root}/backend/report/get-reports-by-name.php${data}`;
         let result = await fetch(url);
         result = await result.json();
 

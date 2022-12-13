@@ -4,15 +4,26 @@
     import { createEventDispatcher } from "svelte";
     const dispatch = createEventDispatcher();
 
+    import { loginStatus } from "../stores/loginStatus";
+
     let name = "";
-    let address;
-    let licence;
+    let address = "";
+    let licence = "";
 
     const addPerson = async () => {
         let data = new FormData();
+        console.log($loginStatus);
+        if ($loginStatus.username) {
+            console.log($loginStatus.username);
+            data.append("username", $loginStatus.username);
+        }
         data.append("name", name);
-        data.append("address", address);
-        data.append("licence", licence);
+        if (address.length > 0) {
+            data.append("address", address);
+        }
+        if (licence.length > 0) {
+            data.append("licence", licence);
+        }
 
         const url = `${root}/backend/person/create-person.php`;
         let result = await fetch(url, {

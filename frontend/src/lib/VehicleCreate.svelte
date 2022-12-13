@@ -1,6 +1,7 @@
 <script>
     import { root } from "../config";
     import { successMsg, failMsg } from "../lib/toast";
+    import { loginStatus } from "../stores/loginStatus";
     import AddPerson from "./AddPerson.svelte";
 
     let vehicleMake = "";
@@ -16,6 +17,9 @@
         data.append("model", vehicleModel);
         data.append("colour", vehicleColour);
         data.append("licence", numberPlate);
+        if ($loginStatus.username) {
+            data.append("username", $loginStatus.username);
+        }
 
         const url = `${root}/backend/vehicle/create-vehicle.php`;
         let result = await fetch(url, {
@@ -27,7 +31,7 @@
         if (vehicleId) {
             successMsg(`Added ${vehicleMake} ${vehicleModel} successfully!`);
             console.log(owner);
-            if (owner.People_ID) {
+            if (owner && owner.People_ID) {
                 setVehicleOwnership(owner.People_ID, vehicleId);
             }
             clearForm();
@@ -42,6 +46,9 @@
         let data = new FormData();
         data.append("person-id", personID);
         data.append("vehicle-id", vehicleID);
+        if ($loginStatus.username) {
+            data.append("username", $loginStatus.username);
+        }
 
         const url = `${root}/backend/vehicle/set-vehicle-ownership.php`;
         let result = await fetch(url, {

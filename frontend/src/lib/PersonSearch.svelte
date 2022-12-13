@@ -5,6 +5,7 @@
     export let selectable;
     export let textColour = "text-white";
     import { successMsg, failMsg } from "../lib/toast";
+    import { loginStatus } from "../stores/loginStatus";
     import Person from "../lib/Person.svelte";
     let people = [];
 
@@ -21,6 +22,9 @@
             data = "?licence=" + licence;
         } else {
             return;
+        }
+        if ($loginStatus.username) {
+            data += `&username=${$loginStatus.username}`;
         }
         const url = `${root}/backend/person/get-person.php${data}`;
         let result = await fetch(url);
