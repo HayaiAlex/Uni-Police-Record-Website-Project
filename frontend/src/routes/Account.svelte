@@ -1,6 +1,7 @@
 <script>
-    import ChangePassword from "../lib/ChangePassword.svelte";
-    import CreateAccount from "../lib/CreateAccount.svelte";
+    import ChangePassword from "../lib/AccountComponents/ChangePassword.svelte";
+    import CreateAccount from "../lib/AccountComponents/CreateAccount.svelte";
+    import { loginStatus } from "../stores/loginStatus";
 </script>
 
 <div class="bg-traffic bg-no-repeat bg-cover bg-center h-screen">
@@ -9,6 +10,8 @@
     >
         <ChangePassword />
 
-        <CreateAccount />
+        {#if $loginStatus.admin == "1"}
+            <CreateAccount />
+        {/if}
     </main>
 </div>

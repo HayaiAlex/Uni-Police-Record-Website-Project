@@ -1,12 +1,12 @@
 <script>
-    import { root } from "../config";
+    import { root } from "../../config";
     import { createEventDispatcher } from "svelte";
     const dispatch = createEventDispatcher();
     export let selectable;
     export let textColour = "text-white";
-    import { successMsg, failMsg } from "../lib/toast";
-    import { loginStatus } from "../stores/loginStatus";
-    import Person from "../lib/Person.svelte";
+    import { successMsg, failMsg } from "../toast";
+    import { loginStatus } from "../../stores/loginStatus";
+    import Person from "./Person.svelte";
     let people = [];
 
     let name = "";

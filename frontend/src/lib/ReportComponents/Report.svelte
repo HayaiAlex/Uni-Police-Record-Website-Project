@@ -1,11 +1,11 @@
 <script>
-    import { root } from "../config";
-    import { successMsg, failMsg } from "../lib/toast";
+    import { root } from "../../config";
+    import { successMsg, failMsg } from "../toast";
     import { createEventDispatcher } from "svelte";
-    import { loginStatus } from "../stores/loginStatus";
-    import { offences } from "../stores/offences";
-    import AddPerson from "./AddPerson.svelte";
-    import AddVehicle from "./AddVehicle.svelte";
+    import { loginStatus } from "../../stores/loginStatus";
+    import { offences } from "../../stores/offences";
+    import AddPerson from "../PeopleComponents/AddPerson.svelte";
+    import AddVehicle from "../VehicleComponents/AddVehicle.svelte";
     const dispatch = createEventDispatcher();
 
     export let report;
@@ -92,6 +92,10 @@
     };
 
     const editFine = async () => {
+        if (edittingFine) {
+            !edittingFine;
+            return;
+        }
         let formData = new FormData();
         formData.append("incidentId", report.Incident_ID);
         formData.append("amount", fine);
@@ -253,6 +257,7 @@
                         (Maximum of {$offences[offence].Offence_maxPoints} points)
                     </p>
                 </div>
+
                 <button type="submit" class="button"> Edit Fine </button>
             </form>
         {:else if fineId}
@@ -283,14 +288,26 @@
                     on:click={() => {
                         edittingFine = !edittingFine;
                     }}
-                    class="button">Edit Fine</button
+                    class="button"
+                >
+                    {#if !edittingFine}
+                        Edit Fine
+                    {:else}
+                        Cancel
+                    {/if}</button
                 >
             {:else}
                 <button
                     on:click={() => {
                         edittingFine = !edittingFine;
                     }}
-                    class="button">Add Fine</button
+                    class="button"
+                >
+                    {#if !edittingFine}
+                        Add Fine
+                    {:else}
+                        Cancel
+                    {/if}</button
                 >
             {/if}
         {/if}

@@ -1,7 +1,7 @@
 <script>
     import { root } from "../config";
-    import ReportCreate from "../lib/ReportCreate.svelte";
-    import ReportSearch from "../lib/ReportSearch.svelte";
+    import ReportCreate from "../lib/ReportComponents/ReportCreate.svelte";
+    import ReportSearch from "../lib/ReportComponents/ReportSearch.svelte";
 
     import { offences } from "../stores/offences";
     import { onMount } from "svelte";
@@ -19,7 +19,7 @@
     let searchingReport = false;
 </script>
 
-<div class="bg-traffic bg-no-repeat bg-cover bg-center h-screen">
+<div class="bg-traffic bg-no-repeat bg-cover bg-center min-h-screen">
     <div class="flex justify-center gap-4 py-4">
         <button
             class="button"

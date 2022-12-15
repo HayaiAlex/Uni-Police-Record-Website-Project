@@ -1,7 +1,7 @@
 <script>
-    import { root } from "../config";
-    import { loginStatus } from "../stores/loginStatus";
-    import { successMsg, failMsg } from "../lib/toast";
+    import { root } from "../../config";
+    import { loginStatus } from "../../stores/loginStatus";
+    import { successMsg, failMsg } from "../toast";
 
     let username = "";
     let password = "";

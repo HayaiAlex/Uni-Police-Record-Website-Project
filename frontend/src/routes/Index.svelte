@@ -33,10 +33,10 @@
     };
 </script>
 
-<main
-    class="bg-traffic bg-no-repeat bg-cover bg-center h-[40rem] grid items-center"
->
-    <div class="flex justify-center items-center gap-4 p-10 h-max">
+<main class="bg-traffic bg-no-repeat bg-cover bg-center min-h-screen relative">
+    <div
+        class="flex justify-center items-center gap-4 absolute top-1/4 left-1/2 -translate-x-1/2"
+    >
         <div class="self-start">
             <h2 class="text-4xl text-white font-semibold max-w-xs">
                 Managing traffic incidents made

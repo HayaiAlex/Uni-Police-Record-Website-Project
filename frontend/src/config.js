@@ -5,6 +5,7 @@ path = path.split("config.js")[0]
 console.log(`Path: ${path}`)
 
 const roots = {
+    'http://localhost/police/index.js': 'http://localhost',
     'http://localhost:5173/src/': 'http://localhost',
     'http://mersey.cs.nott.ac.uk/~psxaa48/police/main.js': 'http://mersey.cs.nott.ac.uk/~psxaa48/police'
 }
@@ -20,6 +21,7 @@ console.log(`Root: ${root}`)
 // Route is used by the router to get a url prefix for each host
 let route = ''
 const routes = {
+    'http://localhost/police/index.js': '/police',
     'http://localhost:5173/src/': '',
     'http://mersey.cs.nott.ac.uk/~psxaa48/police/main.js': '/~psxaa48/police'
 }

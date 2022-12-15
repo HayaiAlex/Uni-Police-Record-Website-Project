@@ -1,7 +1,7 @@
 <script>
-    import { root } from "../config";
-    import { successMsg, failMsg } from "../lib/toast";
-    import { loginStatus } from "../stores/loginStatus";
+    import { root } from "../../config";
+    import { successMsg, failMsg } from "../toast";
+    import { loginStatus } from "../../stores/loginStatus";
     import Report from "./Report.svelte";
     let reports = [];
     let name = "";

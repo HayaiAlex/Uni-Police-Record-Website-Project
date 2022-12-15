@@ -1,9 +1,9 @@
 <script>
-    import { root } from "../config";
+    import { root } from "../../config";
     import { createEventDispatcher } from "svelte";
     const dispatch = createEventDispatcher();
-    import { successMsg, failMsg } from "../lib/toast";
-    import { loginStatus } from "../stores/loginStatus";
+    import { successMsg, failMsg } from "../toast";
+    import { loginStatus } from "../../stores/loginStatus";
     import Vehicle from "./Vehicle.svelte";
     let vehicles = [];
     let numberPlate = "";
@@ -20,9 +20,11 @@
         const url = `${root}/backend/vehicle/get-vehicle.php${data}`;
         let result = await fetch(url);
         result = await result.json();
-        vehicles = result.data;
-        if (vehicles) {
-            successMsg("Found your vehicle.");
+        if (result.data) {
+            vehicles = result.data;
+        }
+        if (vehicles.length > 0) {
+            successMsg(`Found ${vehicles.length} vehicles.`);
         } else {
             failMsg("No vehicle found!");
         }

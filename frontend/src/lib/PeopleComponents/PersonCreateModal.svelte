@@ -1,10 +1,10 @@
 <script>
-    import { root } from "../config";
-    import { successMsg, failMsg } from "../lib/toast";
+    import { root } from "../../config";
+    import { successMsg, failMsg } from "../toast";
     import { createEventDispatcher } from "svelte";
     const dispatch = createEventDispatcher();
 
-    import { loginStatus } from "../stores/loginStatus";
+    import { loginStatus } from "../../stores/loginStatus";
 
     let name = "";
     let address = "";
@@ -48,7 +48,7 @@
 
 <div
     class="absolute left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2
-            bg-sky-300 rounded shadow-screen p-2 text-black w-60 h-72 grid place-content-center"
+            bg-sky-300 rounded shadow-screen p-2 text-black w-60 h-72 grid place-content-center z-50"
 >
     <button
         on:click={() => {

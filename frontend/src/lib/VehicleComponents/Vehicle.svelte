@@ -1,9 +1,9 @@
 <script>
-    import { root } from "../config";
-    import { successMsg, failMsg } from "../lib/toast";
+    import { root } from "../../config";
+    import { successMsg, failMsg } from "../toast";
     import { createEventDispatcher } from "svelte";
     const dispatch = createEventDispatcher();
-    import { loginStatus } from "../stores/loginStatus";
+    import { loginStatus } from "../../stores/loginStatus";
 
     export let data;
     export let selectable;
@@ -54,11 +54,11 @@
     };
 
     const deleteVehicle = async () => {
-        let data = `?id=${data.Vehicle_ID}`;
+        let getData = `?id=${data.Vehicle_ID}`;
         if ($loginStatus.username) {
-            data += `&username=${$loginStatus.username}`;
+            getData += `&username=${$loginStatus.username}`;
         }
-        const url = `${root}/backend/vehicle/remove-vehicle.php${data}`;
+        const url = `${root}/backend/vehicle/remove-vehicle.php${getData}`;
         let result = await fetch(url);
         result = await result.json();
         console.log(result);

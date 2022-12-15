@@ -1,7 +1,7 @@
 <script>
-    import { root } from "../config";
-    import { successMsg, failMsg } from "../lib/toast";
-    import { loginStatus } from "../stores/loginStatus";
+    import { root } from "../../config";
+    import { successMsg, failMsg } from "../toast";
+    import { loginStatus } from "../../stores/loginStatus";
     let date;
     let statement;
     let offence;
@@ -9,9 +9,9 @@
     let personText = "None";
     let vehicle;
     let vehicleText = "None";
-    import { offences } from "../stores/offences";
-    import AddPerson from "../lib/AddPerson.svelte";
-    import AddVehicle from "../lib/AddVehicle.svelte";
+    import { offences } from "../../stores/offences";
+    import AddPerson from "../PeopleComponents/AddPerson.svelte";
+    import AddVehicle from "../VehicleComponents/AddVehicle.svelte";
 
     const createReport = async () => {
         let data = new FormData();

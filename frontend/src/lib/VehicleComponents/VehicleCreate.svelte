@@ -1,8 +1,8 @@
 <script>
-    import { root } from "../config";
-    import { successMsg, failMsg } from "../lib/toast";
-    import { loginStatus } from "../stores/loginStatus";
-    import AddPerson from "./AddPerson.svelte";
+    import { root } from "../../config";
+    import { successMsg, failMsg } from "../toast";
+    import { loginStatus } from "../../stores/loginStatus";
+    import AddPerson from "../PeopleComponents/AddPerson.svelte";
 
     let vehicleMake = "";
     let vehicleModel = "";

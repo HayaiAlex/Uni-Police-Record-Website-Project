@@ -2,7 +2,7 @@
     import { createEventDispatcher } from "svelte";
     const dispatch = createEventDispatcher();
 
-    import PersonCreateModal from "../lib/PersonCreateModal.svelte";
+    import PersonCreateModal from "./PersonCreateModal.svelte";
     import PersonSearch from "./PersonSearch.svelte";
 
     let searchingPerson = false;

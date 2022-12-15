@@ -2,8 +2,8 @@
     import { createEventDispatcher } from "svelte";
     const dispatch = createEventDispatcher();
 
-    import VehicleCreate from "../lib/VehicleCreate.svelte";
-    import VehicleSearch from "../lib/VehicleSearch.svelte";
+    import VehicleCreate from "./VehicleCreate.svelte";
+    import VehicleSearch from "./VehicleSearch.svelte";
 
     let searchingVehicle = false;
     let creatingVehicle = false;

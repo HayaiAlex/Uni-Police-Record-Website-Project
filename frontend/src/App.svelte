@@ -46,5 +46,7 @@
 <!-- <svelte:component this={page} {params} /> -->
 <SvelteToast />
 
-<Header />
-<svelte:component this={page} />
+<div class="bg-black">
+    <Header />
+    <svelte:component this={page} />
+</div>

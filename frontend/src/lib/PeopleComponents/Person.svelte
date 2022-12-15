@@ -1,9 +1,9 @@
 <script>
-    import { root } from "../config";
-    import { successMsg, failMsg } from "../lib/toast";
+    import { root } from "../../config";
+    import { successMsg, failMsg } from "../toast";
     import { createEventDispatcher } from "svelte";
     const dispatch = createEventDispatcher();
-    import { loginStatus } from "../stores/loginStatus";
+    import { loginStatus } from "../../stores/loginStatus";
     export let person;
     export let selectable;
     let name = person.People_name;
