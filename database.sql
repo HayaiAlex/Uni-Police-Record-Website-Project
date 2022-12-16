@@ -148,13 +148,6 @@ CREATE TABLE audit (
   Audit_Users_History_ID int(11)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO audit (Audit_ID, Audit_timestamp, Audit_username, Audit_action, Audit_search_term) VALUES
-(1, '2008-01-01 00:00:01', 'mcnulty', 'searched people by name', 'alex'),
-(2, '2008-01-01 00:00:01', 'mcnulty', 'created person', NULL),
-(3, '2008-01-01 00:00:01', 'daniels', 'changed password', NULL),
-(4, '2008-01-01 00:00:01', 'admin', 'deleted person', NULL),
-(5, '2008-01-01 00:00:01', 'admin', 'added fine', NULL);
-
 DROP TABLE IF EXISTS audit_people_history;
 CREATE TABLE audit_people_history (
   Audit_People_History_ID int(11) NOT NULL,
@@ -280,19 +273,19 @@ ALTER TABLE people
 ALTER TABLE vehicle
   MODIFY Vehicle_ID int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 ALTER TABLE audit
-  MODIFY Audit_ID int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY Audit_ID int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 ALTER TABLE audit_people_history
-  MODIFY Audit_People_History_ID int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY Audit_People_History_ID int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 ALTER TABLE audit_vehicle_history
-  MODIFY Audit_Vehicle_History_ID int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY Audit_Vehicle_History_ID int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 ALTER TABLE audit_incident_history
-  MODIFY Audit_Incident_History_ID int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY Audit_Incident_History_ID int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 ALTER TABLE audit_fines_history
-  MODIFY Audit_Fines_History_ID int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY Audit_Fines_History_ID int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 ALTER TABLE audit_ownership_history
-  MODIFY Audit_Ownership_History_ID int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY Audit_Ownership_History_ID int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 ALTER TABLE audit_users_history
-  MODIFY Audit_Users_History_ID int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY Audit_Users_History_ID int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 
 ALTER TABLE fines

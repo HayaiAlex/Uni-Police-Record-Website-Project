@@ -7,7 +7,7 @@ console.log(`Path: ${path}`)
 const roots = {
     'http://localhost/police/index.js': 'http://localhost',
     'http://localhost:5173/src/': 'http://localhost',
-    'http://mersey.cs.nott.ac.uk/~psxaa48/police/main.js': 'http://mersey.cs.nott.ac.uk/~psxaa48/police'
+    'http://mersey.cs.nott.ac.uk/~psxaa48/police/index.js': 'http://mersey.cs.nott.ac.uk/~psxaa48/police'
 }
 
 if (roots[path]) {
@@ -23,7 +23,7 @@ let route = ''
 const routes = {
     'http://localhost/police/index.js': '/police',
     'http://localhost:5173/src/': '',
-    'http://mersey.cs.nott.ac.uk/~psxaa48/police/main.js': '/~psxaa48/police'
+    'http://mersey.cs.nott.ac.uk/~psxaa48/police/index.js': '/~psxaa48/police'
 }
 if (routes[path]) {
     route = routes[path]

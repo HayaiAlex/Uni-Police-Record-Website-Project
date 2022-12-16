@@ -8,7 +8,7 @@ require_once(__DIR__.'/../protected/database.php');
 // Default limit is 20
 $limit = 20;
 if (isset($_GET['limit'])) {
-    $limit = $_GET['limit'];
+    $limit = (int)$_GET['limit'];
 }
 
 try {
@@ -75,6 +75,7 @@ try {
     $allRows = array_merge($simpleRows, $peopleRows, $vehicleRows, $reportRows, $fineRows, $ownershipRows, $userRows);
 
     usort($allRows, function($a, $b) {
+        date_default_timezone_set('UTC');
         $a_time = strtotime($a['Audit_timestamp']);
         $b_time = strtotime($b['Audit_timestamp']);
         
