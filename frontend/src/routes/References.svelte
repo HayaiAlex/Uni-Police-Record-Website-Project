@@ -53,5 +53,14 @@
                 >Svelte A Beginner's Guide by Simon Holthausen</a
             >
         </p>
+
+        <p>
+            Build config help <a
+                class="underline"
+                target="#"
+                href="https://stackoverflow.com/questions/69614671/vite-without-hash-in-filename"
+                >rollup - vite without hash in filename - Stack Overflow</a
+            >
+        </p>
     </main>
 </div>

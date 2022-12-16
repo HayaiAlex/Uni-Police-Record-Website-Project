@@ -5,8 +5,8 @@ header('Content-Type: application/json');
 
 require_once(__DIR__.'/../protected/database.php');
 
-// Default limit is 10
-$limit = 10;
+// Default limit is 20
+$limit = 20;
 if (isset($_GET['limit'])) {
     $limit = $_GET['limit'];
 }

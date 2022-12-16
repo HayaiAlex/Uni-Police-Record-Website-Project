@@ -34,7 +34,7 @@ try {
     require_once(__DIR__.'/../audit/create-audit.php');
     createFineLog($db, $username, "Editted fine", $_POST['fineId'], $old['Incident_ID'], $_POST['amount'], $_POST['points'], $old['Fine_Amount'], $old['Fine_Points']);
 
-    echo '{"status":1, "message":"fine editted", "id":"'.$_POST['fineId'].'"}';
+    echo '{"status":1, "message":"fine edited", "id":"'.$_POST['fineId'].'"}';
     exit();
 } catch (PDOException $ex) {
     sendError('error executing query', __LINE__);
